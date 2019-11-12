@@ -1,0 +1,19 @@
+{
+  "name": "undertext/microframework",
+  "description": "PHP microframework",
+  "minimum-stability": "dev",
+  "license": "proprietary",
+  "require": {
+    "undertext/arouter": "master",
+    "doctrine/orm": "^2.6",
+    "guzzlehttp/psr7": "*",
+    "php-di/php-di": "6.0.2",
+    "symfony/serializer": "^4.3",
+    "ocramius/proxy-manager": "*",
+    "dragonmantank/cron-expression": "^2.3",
+    "symfony/yaml": "^4.3"
+  },
+  "autoload": {
+    "psr-4": {"Undertext\\Microframework\\": "src/"}
+  }
+}
