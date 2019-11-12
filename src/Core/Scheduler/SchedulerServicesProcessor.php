@@ -3,13 +3,12 @@
 
 namespace Undertext\Microframework\Core\Scheduler;
 
-
 use function DI\factory;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Psr\Container\ContainerInterface;
-use Undertext\Dota2Service\Framework\Core\ServicesProcessor;
 use Undertext\Microframework\Core\Scheduler\Annotation\Scheduled;
 use Undertext\Microframework\Core\ServicesManager;
+use Undertext\Microframework\Core\ServicesProcessor;
 
 class SchedulerServicesProcessor implements ServicesProcessor {
 

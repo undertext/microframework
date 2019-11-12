@@ -1,9 +1,6 @@
 <?php
 
-namespace Undertext\Dota2Service\Framework\Core;
-
-use Undertext\Microframework\Core\ServicesManager;
-use Undertext\Microservice\Core;
+namespace Undertext\Microframework\Core;
 
 interface ServicesProcessor {
 

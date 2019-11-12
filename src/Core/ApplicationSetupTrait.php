@@ -20,9 +20,9 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use Psr\Container\ContainerInterface;
-use Undertext\Dota2Service\Framework\Scheduler\SchedulerServicesProcessor;
 use Undertext\Microframework\Core\Converter\JsonHttpMessageConverter;
-use Undertext\Microservice\Core\Router\DIRouter;
+use Undertext\Microframework\Core\Router\DIRouter;
+use Undertext\Microframework\Core\Scheduler\SchedulerServicesProcessor;
 
 trait ApplicationSetupTrait {
 

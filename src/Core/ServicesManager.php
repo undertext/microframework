@@ -8,7 +8,7 @@ use DI\ContainerBuilder;
 use function DI\get;
 use Doctrine\Common\Annotations\AnnotationReader;
 use ReflectionClass;
-use Undertext\Dota2Service\Framework\Core\Annotation\Service;
+use Undertext\Microframework\Core\Annotation\Service;
 
 class ServicesManager {
 
@@ -122,7 +122,7 @@ class ServicesManager {
     }
 
     foreach ($this->processorClasses as $processorClass) {
-      /** @var \Undertext\Dota2Service\Framework\Core\ServicesProcessor $serviceProcessor */
+      /** @var \Undertext\Microframework\Core\ServicesProcessor $serviceProcessor */
       $serviceProcessor = new $processorClass();
       $serviceProcessor->process($this);
     }

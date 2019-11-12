@@ -3,16 +3,14 @@
 namespace Undertext\Microframework\Core\Scheduler;
 
 /**
- * Class Scheduler
- *
- * @package Undertext\Dota2Service\Framework\Scheduler
+ * Class Scheduler.
  */
 class Scheduler {
 
   /**
    * Scheduler tasks.
    *
-   * @var \Undertext\Dota2Service\Framework\Scheduler\Task[]
+   * @var \Undertext\Microframework\Core\Scheduler\Task[]
    */
   private $tasks;
 

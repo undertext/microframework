@@ -1,6 +1,6 @@
 <?php
 
-namespace Undertext\Microservice\Core\Router;
+namespace Undertext\Microframework\Core\Router;
 
 use ARouter\Routing\HttpMessageConverter\HttpMessageConverterManager;
 use ARouter\Routing\Resolver\Service\MethodArgumentsResolverService;
@@ -10,8 +10,6 @@ use Psr\Container\ContainerInterface;
 
 /**
  * Container-aware router.
- *
- * @package Undertext\Microservice\Core\Router
  */
 class DIRouter extends Router {
 
