@@ -44,15 +44,21 @@ class ServicesManager {
   private $phpClassesDetector;
 
   /**
+   * @var string
+   */
+  private $applicationRoot;
+
+  /**
    * ServicesManager constructor.
    *
    * @throws \Doctrine\Common\Annotations\AnnotationException
    * @throws \ReflectionException
    */
-  public function __construct() {
+  public function __construct(string $applicationRoot) {
     $this->annotationReader = new AnnotationReader();
     $this->phpClassesDetector = new PHPClassesDetector();
     $this->containerBuilder = new ContainerBuilder();
+    $this->applicationRoot = $applicationRoot;
     $this->serviceDefinitions = $this->detectServiceClasses();
     $this->processorClasses = [];
   }
@@ -110,7 +116,7 @@ class ServicesManager {
   private function initContainerBuilder() {
     $aliases = [];
     $this->containerBuilder->useAnnotations(TRUE);
-    $this->containerBuilder->enableCompilation(__DIR__ . '/var/cache');
+    $this->containerBuilder->enableCompilation($this->applicationRoot . '/var/cache');
     foreach ($this->serviceDefinitions as $serviceClass => $definition) {
       $definitions[$serviceClass] = $definition;
       $serviceClassReflection = new ReflectionClass($serviceClass);
@@ -145,7 +151,7 @@ class ServicesManager {
    */
   private function detectServiceClasses() {
     $serviceClasses = [];
-    $detectedClasses = $this->phpClassesDetector->detect(__DIR__ . '/../../');
+    $detectedClasses = $this->phpClassesDetector->detect($this->applicationRoot . '/src');
     foreach ($detectedClasses as $class) {
       try {
         $reflectionClass = new ReflectionClass($class);
