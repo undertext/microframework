@@ -95,6 +95,7 @@ trait ApplicationSetupTrait {
    */
   public function useRouter($controllersDirectory) {
     $this->servicesManager->addProperty('router.controllersDirectory', $controllersDirectory);
+    $this->servicesManager->addProperty('router.cacheDirectory', $this->servicesManager->getApplicationRoot() . '/cache/cachedRouteMappings.cache');
     $definition = factory(function (ContainerInterface $container) {
       $controllersDirectory = $container->get('router.controllersDirectory');
       $argumentsResolverService = new MethodArgumentsResolverService();
@@ -111,7 +112,7 @@ trait ApplicationSetupTrait {
       $converterManager->addConverters([new JsonHttpMessageConverter()]);
 
       $scanner = new AnnotationRouteMappingsScanner($controllersDirectory, new AnnotationReader(), new PHPClassesDetector());
-      $scanner = new CachedRouteMappingsScanner($scanner, $this->servicesManager->getApplicationRoot() . '/cache/cachedRouteMappings.cache');
+      $scanner = new CachedRouteMappingsScanner($scanner, $container->get('router.cacheDirectory'));
 
       $router = new DIRouter($scanner, $argumentsResolverService, $converterManager, $container);
       $router->setContainer($container);
