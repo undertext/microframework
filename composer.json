@@ -11,7 +11,9 @@
     "symfony/serializer": "^4.3",
     "ocramius/proxy-manager": "*",
     "dragonmantank/cron-expression": "^2.3",
-    "symfony/yaml": "^4.3"
+    "symfony/yaml": "^4.3",
+    "symfony/dotenv": "4.4.x-dev",
+    "relay/relay": "2.x-dev"
   },
   "autoload": {
     "psr-4": {"Undertext\\Microframework\\": "src/"}

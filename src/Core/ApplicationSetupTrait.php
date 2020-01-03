@@ -19,7 +19,10 @@ use function DI\factory;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
+use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Container\ContainerInterface;
+use Relay\Relay;
+use Symfony\Component\Dotenv\Dotenv;
 use Undertext\Microframework\Core\Converter\JsonHttpMessageConverter;
 use Undertext\Microframework\Core\Router\DIRouter;
 use Undertext\Microframework\Core\Scheduler\SchedulerServicesProcessor;
@@ -65,6 +68,17 @@ trait ApplicationSetupTrait {
   }
 
   /**
+   * Setup environment variables.
+   *
+   * @param $directory
+   *   Directory with .env file.
+   */
+  public function setupEnvironment($directory) {
+    $dotenv = new Dotenv();
+    $dotenv->load($directory);
+  }
+
+  /**
    * Use router library.
    *
    * @param $controllersDirectory
@@ -90,7 +104,7 @@ trait ApplicationSetupTrait {
       $converterManager->addConverters([new JsonHttpMessageConverter()]);
 
       $scanner = new AnnotationRouteMappingsScanner($controllersDirectory, new AnnotationReader(), new PHPClassesDetector());
-      $scanner = new CachedRouteMappingsScanner($scanner);
+      $scanner = new CachedRouteMappingsScanner($scanner, $this->servicesManager->getApplicationRoot() . '/cache/cachedRouteMappings.cache');
 
       $router = new DIRouter($scanner, $argumentsResolverService, $converterManager, $container);
       $router->setContainer($container);
@@ -100,4 +114,20 @@ trait ApplicationSetupTrait {
     $this->servicesManager->addServiceDefinition(Router::class, $definition);
     return $this;
   }
+
+  public function handleHTTPRequest($middlewares) {
+    try {
+      $relay = new Relay($middlewares);
+      $response = $relay->handle(ServerRequest::fromGlobals());
+    } catch (\Exception $e) {
+      echo $e->getMessage();
+      exit;
+    }
+    foreach ($response->getHeaders() as $name => $header) {
+      header($name . ':' . $response->getHeaderLine($name));
+    }
+    echo $response->getBody();
+    exit;
+  }
+
 }

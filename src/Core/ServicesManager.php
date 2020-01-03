@@ -166,4 +166,11 @@ class ServicesManager {
     return $serviceClasses;
   }
 
+  /**
+   * @return string
+   */
+  public function getApplicationRoot(): string {
+    return $this->applicationRoot;
+  }
+
 }
