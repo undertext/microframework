@@ -15,12 +15,16 @@ use ARouter\Routing\Router;
 use ARouter\Routing\Scanner\AnnotationRouteMappingsScanner;
 use ARouter\Routing\Scanner\CachedRouteMappingsScanner;
 use ARouter\Routing\Utility\PHPClassesDetector;
+use function DI\create;
 use function DI\factory;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use GuzzleHttp\Psr7\ServerRequest;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Relay\Relay;
 use Symfony\Component\Dotenv\Dotenv;
 use Undertext\Microframework\Core\Converter\JsonHttpMessageConverter;
@@ -72,10 +76,13 @@ trait ApplicationSetupTrait {
    *
    * @param $directory
    *   Directory with .env file.
+   *
+   * @return \Undertext\Microframework\Core\ApplicationSetupTrait
    */
   public function setupEnvironment($directory) {
     $dotenv = new Dotenv();
     $dotenv->load($directory);
+    return $this;
   }
 
   /**
@@ -112,6 +119,12 @@ trait ApplicationSetupTrait {
     });
 
     $this->servicesManager->addServiceDefinition(Router::class, $definition);
+    return $this;
+  }
+
+  public function useLogger() {
+    $definition = create(Logger::class)->constructor('microframework', [create(StreamHandler::class)->constructor('php://stderr')]);
+    $this->servicesManager->addServiceDefinition(LoggerInterface::class, $definition);
     return $this;
   }
 
