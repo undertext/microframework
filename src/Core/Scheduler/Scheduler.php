@@ -2,6 +2,8 @@
 
 namespace Undertext\Microframework\Core\Scheduler;
 
+use DateTime;
+
 /**
  * Class Scheduler.
  */
@@ -20,9 +22,10 @@ class Scheduler {
   }
 
   public function run() {
+    $time = new DateTime();
     foreach ($this->tasks as $task) {
       $cron = \Cron\CronExpression::factory($task->getCron());
-      if ($cron->isDue()) {
+      if ($cron->isDue($time)) {
         $task->getCallable()();
       }
     }
